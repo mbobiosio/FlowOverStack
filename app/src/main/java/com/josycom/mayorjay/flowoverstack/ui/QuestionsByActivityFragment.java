@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import com.josycom.mayorjay.flowoverstack.adapters.QuestionAdapter;
 import com.josycom.mayorjay.flowoverstack.databinding.FragmentQuestionsByActivityBinding;
 import com.josycom.mayorjay.flowoverstack.model.Owner;
 import com.josycom.mayorjay.flowoverstack.model.Question;
-import com.josycom.mayorjay.flowoverstack.util.AppUtils;
 import com.josycom.mayorjay.flowoverstack.util.DateUtil;
 import com.josycom.mayorjay.flowoverstack.util.StringConstants;
 import com.josycom.mayorjay.flowoverstack.viewmodel.CustomQuestionViewModelFactory;
@@ -47,6 +45,7 @@ public class QuestionsByActivityFragment extends Fragment {
     private FragmentQuestionsByActivityBinding mFragmentQuestionsByActivityBinding;
     private PagedList<Question> mQuestions;
     private View.OnClickListener mOnClickListener;
+    private String mSortString;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -54,6 +53,35 @@ public class QuestionsByActivityFragment extends Fragment {
         mFragmentQuestionsByActivityBinding = FragmentQuestionsByActivityBinding.inflate(inflater, container, false);
         mFragmentQuestionsByActivityBinding.activitySwipeContainer.setColorSchemeResources(R.color.colorPrimaryLight);
         mFragmentQuestionsByActivityBinding.activityScrollUpFab.setVisibility(View.INVISIBLE);
+
+        //mFragmentQuestionsByActivityBinding.tvActiveQuestions.setText("Active Questions");
+        //String fragHeaderText;
+        mSortString = StringConstants.SORT_BY_ACTIVITY;
+        if (getArguments() != null) {
+            String fragHeaderText;
+            if (getArguments().containsKey("active_header_text_key")){
+                fragHeaderText = getArguments().getString("active_header_text_key");
+                mFragmentQuestionsByActivityBinding.tvActiveQuestions.setText(fragHeaderText);
+            } else if (getArguments().containsKey("recent_header_text_key")){
+                fragHeaderText = getArguments().getString("recent_header_text_key");
+                mFragmentQuestionsByActivityBinding.tvActiveQuestions.setText(fragHeaderText);
+            } else if (getArguments().containsKey("hot_header_text_key")){
+                fragHeaderText = getArguments().getString("hot_header_text_key");
+                mFragmentQuestionsByActivityBinding.tvActiveQuestions.setText(fragHeaderText);
+            } else if (getArguments().containsKey("vote_header_text_key")){
+                fragHeaderText = getArguments().getString("vote_header_text_key");
+                mFragmentQuestionsByActivityBinding.tvActiveQuestions.setText(fragHeaderText);
+            }
+            if (getArguments().containsKey("active_sort_key")){
+                mSortString = getArguments().getString("active_sort_key");
+            } else if (getArguments().containsKey("recent_sort_key")){
+                mSortString = getArguments().getString("recent_sort_key");
+            } else if (getArguments().containsKey("hot_sort_key")){
+                mSortString = getArguments().getString("hot_sort_key");
+            } else if (getArguments().containsKey("vote_sort_key")){
+                mSortString = getArguments().getString("vote_sort_key");
+            }
+        }
 
         mFragmentQuestionsByActivityBinding.activityRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -104,7 +132,7 @@ public class QuestionsByActivityFragment extends Fragment {
         QuestionViewModel questionViewModel = new ViewModelProvider(this, new CustomQuestionViewModelFactory(StringConstants.FIRST_PAGE,
                 StringConstants.PAGE_SIZE,
                 StringConstants.ORDER_DESCENDING,
-                StringConstants.SORT_BY_ACTIVITY,
+                mSortString,
                 StringConstants.SITE,
                 StringConstants.QUESTION_FILTER,
                 StringConstants.API_KEY)).get(QuestionViewModel.class);
