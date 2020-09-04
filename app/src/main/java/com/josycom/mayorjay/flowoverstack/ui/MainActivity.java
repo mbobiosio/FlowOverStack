@@ -1,25 +1,20 @@
 package com.josycom.mayorjay.flowoverstack.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import com.josycom.mayorjay.flowoverstack.R;
-import com.josycom.mayorjay.flowoverstack.databinding.ActivityMainBinding;
-import com.josycom.mayorjay.flowoverstack.util.StringConstants;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.view.Menu;
-import android.view.MenuItem;
-
-import org.jetbrains.annotations.NotNull;
+import com.josycom.mayorjay.flowoverstack.R;
+import com.josycom.mayorjay.flowoverstack.databinding.ActivityMainBinding;
+import com.josycom.mayorjay.flowoverstack.util.StringConstants;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentTransaction mFragmentTransaction;
@@ -35,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
         mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(mNavController.getGraph()).build();
         NavigationUI.setupWithNavController(activityMainBinding.toolbar, mNavController, appBarConfiguration);
+
+        mNavController.popBackStack(R.id.activity_dest, true);
+        mNavController.navigate(R.id.activity_dest);
 
 //        if (savedInstanceState != null) {
 //            isFragmentDisplayed = savedInstanceState.getBoolean(StringConstants.STATE_FRAGMENT);
@@ -80,14 +78,14 @@ public class MainActivity extends AppCompatActivity {
 //            overridePendingTransition(R.anim.fade_in_anim, R.anim.fade_out_anim);
             return true;
         } else if (id == R.id.action_activity_dest_to_recent_dest) {
-            if (item.getTitle().equals("Filter by Recency")){
+            if (item.getTitle().equals("Filter by Recency")) {
                 //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
                 Bundle arg = new Bundle();
                 arg.putString("recent_header_text_key", "Recent Questions");
                 arg.putString("recent_sort_key", StringConstants.SORT_BY_CREATION);
                 mNavController.navigate(R.id.activity_dest, arg);
                 item.setTitle("Filter by Activity");
-            } else if (item.getTitle().equals("Filter by Activity")){
+            } else if (item.getTitle().equals("Filter by Activity")) {
                 //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
                 Bundle arg = new Bundle();
                 arg.putString("active_header_text_key", "Active Questions");
