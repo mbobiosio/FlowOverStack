@@ -4,17 +4,23 @@
     tools:context="com.josycom.mayorjay.flowoverstack.ui.MainActivity">
 
     <item
-        android:id="@+id/action_filter_by_recency"
+        android:id="@+id/action_activity_dest_to_search_dest"
+        android:title="@string/action_search"
+        android:contentDescription="@string/search_description"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_activity_dest_to_recent_dest"
         android:title="@string/action_filter_by_recency"
         android:orderInCategory="10"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/action_filter_by_hot"
+        android:id="@+id/action_activity_dest_to_hot_dest"
         android:title="@string/action_filter_by_hot"
         android:orderInCategory="20"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/action_filter_by_vote"
+        android:id="@+id/action_activity_dest_to_vote_dest"
         android:title="@string/action_filter_by_vote"
         android:orderInCategory="30"
         app:showAsAction="never"/>
