@@ -54,11 +54,5 @@
         tools:layout="@layout/fragment_questions_by_vote">
     </fragment>
 
-    <fragment
-        android:id="@+id/search_dest"
-        android:name="com.josycom.mayorjay.flowoverstack.ui.SearchFragment"
-        android:label="search_fragment"
-        tools:layout="@layout/fragment_search">
-    </fragment>
 
 </navigation>
